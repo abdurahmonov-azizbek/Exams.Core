@@ -25,6 +25,13 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+//configure auth
+app.UseAuthentication();
+app.UseAuthorization();
+
+//Http redirection
+app.UseHttpsRedirection();
+
 app.MapControllers();
 
 await app.RunAsync();
