@@ -15,10 +15,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //Configure services
 builder.Services.AddServices();
 
+//Configure exposers
+builder.Services.AddControllers();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 var app = builder.Build();
 
 //Use swagger
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.MapControllers();
 
 await app.RunAsync();
