@@ -70,11 +70,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     }
 );
 
+builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>
+{
+    policy
+        .AllowAnyHeader()
+        .AllowAnyOrigin()
+        .AllowAnyMethod();
+}));
+
 var app = builder.Build();
 
 //Use swagger
 app.UseSwagger();
 app.UseSwaggerUI();
+
+//Use cors
+app.UseCors("AllowAll");
 
 //configure auth
 app.UseAuthentication();
