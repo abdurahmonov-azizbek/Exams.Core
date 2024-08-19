@@ -12,6 +12,7 @@ namespace Exams.Data.EntityConfigurations
             builder.Property(user => user.FirstName).IsRequired().HasMaxLength(128);
             builder.Property(user => user.LastName).IsRequired().HasMaxLength(128);
             builder.Property(user => user.PhoneNumber).IsRequired().HasMaxLength(128);
+            builder.Property(user => user.Password).IsRequired().HasMaxLength(256);
         }
     }
 }
