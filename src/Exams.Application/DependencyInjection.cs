@@ -9,6 +9,7 @@ namespace Exams.Application
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPasswordHasherService, PasswordHasherService>();
 
             return services;
         }
