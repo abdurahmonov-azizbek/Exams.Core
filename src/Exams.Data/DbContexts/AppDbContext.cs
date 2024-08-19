@@ -1,0 +1,18 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Exams.Data.DbContexts
+{
+    public sealed class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
+            this.Database.Migrate();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}
