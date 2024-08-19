@@ -1,10 +1,8 @@
-﻿using Exams.Domain.Entities.Common;
-using Exams.Domain.Enums;
-using System.Globalization;
+﻿using Exams.Domain.Enums;
 
-namespace Exams.Domain.Entities
+namespace Exams.Domain.Dtos
 {
-    public class User : EntityBase
+    public class UserDto
     {
         public string FirstName { get; set; } = default!;
         public string LastName { get; set; } = default!;

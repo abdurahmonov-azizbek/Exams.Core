@@ -1,5 +1,6 @@
 using Exams.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using Exams.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 //DbContext configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Configure services
+builder.Services.AddServices();
 
 var app = builder.Build();
 
