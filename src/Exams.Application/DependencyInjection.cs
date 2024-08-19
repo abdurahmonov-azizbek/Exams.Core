@@ -10,6 +10,7 @@ namespace Exams.Application
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+            services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
 
             return services;
         }
