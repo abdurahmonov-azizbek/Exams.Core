@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Exams.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Exams.Data.DbContexts
 {
     public sealed class AppDbContext : DbContext
     {
+        public DbSet<User> Users => Set<User>();
+
         public AppDbContext(DbContextOptions options) : base(options)
         {
             this.Database.Migrate();
