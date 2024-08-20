@@ -12,6 +12,7 @@ namespace Exams.Application
             services.AddScoped<IPasswordHasherService, PasswordHasherService>();
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
             services.AddScoped<IVerificationCodeService, VerificationCodeService>();
+            services.AddScoped<ISmsSenderService, SmsSenderService>();
 
             return services;
         }
