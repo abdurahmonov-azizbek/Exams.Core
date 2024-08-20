@@ -12,45 +12,24 @@ namespace Exams.Application.Services
         ISmsSenderService smsSenderService,
         ITokenGeneratorService tokenGeneratorService) : IAuthService
     {
-        public async ValueTask<Response> LoginAsync(LoginDetails loginDetails)
+        public async ValueTask<string> LoginAsync(LoginDetails loginDetails)
         {
             var user = await userService.GetAll().FirstOrDefaultAsync(user
                 => user.PhoneNumber == loginDetails.PhoneNumber);
 
             if (user is null)
             {
-                return new Response
-                {
-                    StatusCode = 404,
-                    IsSuccess = false,
-                };
+                throw new InvalidOperationException("User not found with this phone number");
             }
 
             if (!passwordHasherService.Verify(loginDetails.Password, user.Password))
             {
-                return new Response
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Phone number or password incorrect!"
-                };
-            }
-
-            if (!user.IsVerified)
-            {
-                return new Response
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "User is not verified!"
-                };
+                throw new InvalidOperationException("Phone number or password incorrect");
             }
 
             var token = tokenGeneratorService.GetToken(user);
-            return new Response
-            {
-                StatusCode = 200,
-                IsSuccess = true,
-                Data = token,
-            };
+
+            return token;
         }
 
         public async ValueTask<bool> RegisterAsync(RegisterDetails registerDetails)
