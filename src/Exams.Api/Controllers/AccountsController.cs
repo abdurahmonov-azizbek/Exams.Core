@@ -1,5 +1,6 @@
 ﻿using Exams.Application.Interfaces;
 using Exams.Domain.Entities;
+using Exams.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,5 +32,16 @@ namespace Exams.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("update-password")]
+        [Authorize]
+        public async ValueTask<IActionResult> UpdatePassword([FromBody] UpdatePasswordDetails updatePasswordDetails)
+        {
+            var userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "Id")!.Value);
+
+            var result = await accountService.UpdatePasswordAsync(userId, updatePasswordDetails);
+
+            return Ok(result);
+        }   
     }
 }
