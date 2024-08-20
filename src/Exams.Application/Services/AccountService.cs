@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Exams.Application.Services
 {
-    public class AuthService(
+    public class AccountService(
         IPasswordHasherService passwordHasherService,
         IUserService userService,
         IVerificationCodeService verificationCodeService,
         ISmsSenderService smsSenderService,
-        ITokenGeneratorService tokenGeneratorService) : IAuthService
+        ITokenGeneratorService tokenGeneratorService) : IAccountService
     {
         public async ValueTask<string> LoginAsync(LoginDetails loginDetails)
         {
@@ -107,6 +107,43 @@ namespace Exams.Application.Services
             });
 
             return true;
+        }
+
+        public async ValueTask<bool> VerifyCodeAsync(Guid userId, string code)
+        {
+            var verificationCode = await verificationCodeService.GetAll().OrderBy(code
+                => code.CreatedDate).LastOrDefaultAsync();
+
+            if (verificationCode is null)
+            {
+                return false;
+            }
+
+            if (verificationCode.Code != code)
+            {
+                return false;
+            }
+
+            var user = await userService.GetByIdAsync(userId);
+
+            if (user is not null)
+            {
+                user.IsVerified = true;
+                await userService.UpdateAsync(
+                    new UserDto
+                    {
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber,
+                        Password = user.Password,
+                        Role = user.Role,
+                        IsVerified = true
+                    }, user.Id);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Exams.Application.Interfaces
 {
-    public interface IAuthService
+    public interface IAccountService
     {
         ValueTask<bool> RegisterAsync(RegisterDetails registerDetails);
         ValueTask<string> LoginAsync(LoginDetails loginDetails);
         ValueTask<bool> SendVerificationCodeAsync(Guid userId);
+        ValueTask<bool> VerifyCodeAsync(Guid userId, string code);
     }
 }

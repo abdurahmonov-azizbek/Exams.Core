@@ -13,6 +13,7 @@ namespace Exams.Application
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
             services.AddScoped<IVerificationCodeService, VerificationCodeService>();
             services.AddScoped<ISmsSenderService, SmsSenderService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }
