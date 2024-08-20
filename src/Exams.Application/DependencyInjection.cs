@@ -11,6 +11,7 @@ namespace Exams.Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordHasherService, PasswordHasherService>();
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
+            services.AddScoped<IVerificationCodeService, VerificationCodeService>();
 
             return services;
         }
