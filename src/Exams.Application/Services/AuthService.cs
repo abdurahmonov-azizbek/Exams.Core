@@ -80,5 +80,33 @@ namespace Exams.Application.Services
 
             return true;
         }
+
+        public async ValueTask<bool> SendVerificationCodeAsync(Guid userId)
+        {
+            var user = await userService.GetByIdAsync(userId);
+
+            if (user is null)
+            {
+                throw new InvalidOperationException("User not found with this phone number");
+            }
+
+            var random = new Random();
+
+            var verificationCode = new VerificationCodeDto
+            {
+                Code = random.Next(10_000, 99_999).ToString(),
+                UserId = user.Id
+            };
+
+            await verificationCodeService.CreateAsync(verificationCode);
+
+            await smsSenderService.SendAsync(new SendSmsRequest
+            {
+                Message = $"Your new verification code is : {verificationCode.Code}",
+                ToPhoneNumber = user.PhoneNumber
+            });
+
+            return true;
+        }
     }
 }

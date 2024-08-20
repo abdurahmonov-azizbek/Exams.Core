@@ -6,6 +6,6 @@ namespace Exams.Application.Interfaces
     {
         ValueTask<bool> RegisterAsync(RegisterDetails registerDetails);
         ValueTask<string> LoginAsync(LoginDetails loginDetails);
-        
+        ValueTask<bool> SendVerificationCodeAsync(Guid userId);
     }
 }
