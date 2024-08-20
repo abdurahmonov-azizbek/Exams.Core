@@ -21,6 +21,7 @@ namespace Exams.Application.Services
                     PhoneNumber = userDto.PhoneNumber,
                     Password = userDto.Password,
                     Role = userDto.Role,
+                    IsVerified = userDto.IsVerified,
                     CreatedDate = Helper.GetCurrentDateTime()
                 };
 
@@ -46,7 +47,10 @@ namespace Exams.Application.Services
                     return false;
                 }
 
-                context.Users.Remove(user);
+                user.IsDeleted = true;
+                user.DeletedDate = Helper.GetCurrentDateTime();
+
+                context.Users.Update(user);
                 await context.SaveChangesAsync();
 
                 return true;
@@ -87,6 +91,8 @@ namespace Exams.Application.Services
                 foundUser.PhoneNumber = userDto.PhoneNumber;
                 foundUser.Role = userDto.Role;
                 foundUser.Password = userDto.Password;
+                foundUser.IsVerified = userDto.IsVerified;
+                foundUser.UpdatedDate = Helper.GetCurrentDateTime();
 
                 context.Users.Update(foundUser);
                 await context.SaveChangesAsync();
