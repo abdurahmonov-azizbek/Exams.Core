@@ -71,6 +71,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     }
 );
 
+//Add custom middlewares
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
+
+//Configure cors
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>
 {
     policy
