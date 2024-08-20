@@ -42,6 +42,6 @@ namespace Exams.Api.Controllers
             var result = await accountService.UpdatePasswordAsync(userId, updatePasswordDetails);
 
             return Ok(result);
-        }   
+        }  
     }
 }

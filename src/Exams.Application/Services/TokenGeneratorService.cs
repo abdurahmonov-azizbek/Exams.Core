@@ -23,8 +23,8 @@ namespace Exams.Application.Services
                 issuer: configuration["JWT:Issuer"],
                 audience: configuration["JWT:Audience"],
                 claims: claims,
-                notBefore: Helper.GetCurrentDateTime(),
-                expires: Helper.GetCurrentDateTime().AddDays(1),
+                notBefore: DateTime.Now,
+                expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials);
 
             var token = new JwtSecurityTokenHandler().WriteToken(securityToken);

@@ -7,6 +7,7 @@ namespace Exams.Data.DbContexts
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<VerificationCode> VerificationCodes => Set<VerificationCode>();
+        public DbSet<ResetCode> ResetCodes => Set<ResetCode>();
 
         public AppDbContext(DbContextOptions options) : base(options)
         {

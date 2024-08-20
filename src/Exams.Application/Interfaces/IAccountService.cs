@@ -8,5 +8,7 @@ namespace Exams.Application.Interfaces
         ValueTask<string> LoginAsync(LoginDetails loginDetails);
         ValueTask<bool> SendVerificationCodeAsync(Guid userId);
         ValueTask<bool> VerifyCodeAsync(Guid userId, string code);
+        ValueTask<bool> UpdatePasswordAsync(Guid userId, UpdatePasswordDetails updatePasswordDetails);
+        ValueTask<bool> SendResetCodeAsync(Guid userId);
     }
 }

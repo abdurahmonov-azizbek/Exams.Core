@@ -1,5 +1,6 @@
 ﻿using Exams.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Exams.Api.Controllers
 {

@@ -12,6 +12,67 @@ namespace Exams.Application.Services
         ISmsSenderService smsSenderService,
         ITokenGeneratorService tokenGeneratorService) : IAccountService
     {
+        public async ValueTask<bool> SendResetCodeAsync(Guid userId)
+        {
+            var user = await userService.GetAll().FirstOrDefaultAsync(user => user.Id == userId);
+
+            if(user is null)
+            {
+                return false;
+            }
+
+            var random = new Random();
+            
+            await smsSenderService.SendAsync(
+                new SendSmsRequest
+                {
+                    Message = $"Your code for reset password is : {random.Next(10_000, 99_999)}",
+                    ToPhoneNumber = user.PhoneNumber
+                });
+
+            return true;
+        }
+
+
+        public async ValueTask<bool> UpdatePasswordAsync(Guid userId, UpdatePasswordDetails updatePasswordDetails)
+        {
+            var user = await userService.GetAll().FirstOrDefaultAsync(user => user.Id == userId);
+
+            if(user is null)
+            {
+                return false;
+            }
+
+            if(!passwordHasherService.Verify(updatePasswordDetails.OldPassword, user.Password))
+            {
+                throw new InvalidOperationException("Password is not correct!");
+            }
+
+            if(updatePasswordDetails.NewPassword.Length is < 8 or > 32)
+            {
+                throw new InvalidOperationException("Password must be between 8 and 32.");
+            }
+
+            if(updatePasswordDetails.NewPassword != updatePasswordDetails.ConfirmNewPassword)
+            {
+                throw new InvalidOperationException("Passwords don't match.");
+            }
+
+            var updatedUserDto = new UserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                Password = passwordHasherService.Hash(updatePasswordDetails.NewPassword),
+                Role = user.Role,
+                IsVerified = user.IsVerified
+            };
+
+            await userService.UpdateAsync(updatedUserDto, user.Id);
+
+            return true;
+        }
+
         public async ValueTask<string> LoginAsync(LoginDetails loginDetails)
         {
             var user = await userService.GetAll().FirstOrDefaultAsync(user

@@ -14,6 +14,7 @@ namespace Exams.Application
             services.AddScoped<IVerificationCodeService, VerificationCodeService>();
             services.AddScoped<ISmsSenderService, SmsSenderService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IResetCodeService, ResetCodeService>();
 
             return services;
         }
