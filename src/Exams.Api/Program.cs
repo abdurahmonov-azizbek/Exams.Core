@@ -6,6 +6,7 @@ using Exams.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Exams.Api.CustomMiddlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,6 +84,9 @@ var app = builder.Build();
 //Use swagger
 app.UseSwagger();
 app.UseSwaggerUI();
+
+//Use custom middlewares
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 //Use cors
 app.UseCors("AllowAll");
