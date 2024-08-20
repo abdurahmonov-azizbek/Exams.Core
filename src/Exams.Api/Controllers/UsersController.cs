@@ -26,5 +26,18 @@ namespace Exams.Api.Controllers
                 ? Ok(result)
                 : NotFound();
         }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async ValueTask<IActionResult> GetCurrentUser()
+        {
+            var userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "Id")!.Value);
+
+            var result = await userService.GetByIdAsync(userId);
+
+            return result is not null
+                ? Ok(result)
+                : BadRequest();
+        }
     }
 }
